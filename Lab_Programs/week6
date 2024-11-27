@@ -1,0 +1,98 @@
+package CIE;
+
+import java.util.Scanner;
+
+public class student {
+    protected String usn;
+    protected String name;
+    protected int sem;
+
+    public void inputStudentDetails() {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter USN: ");
+        usn = s.nextLine();
+        System.out.print("Enter Name: ");
+        name = s.nextLine();
+        System.out.print("Enter Semester: ");
+        sem = s.nextInt();
+    }
+
+    public void displayStudentDetails() {
+        System.out.println("USN: " + usn);
+        System.out.println("Name: " + name);
+        System.out.println("Semester: " + sem);
+    }
+}
+
+package CIE;
+
+import java.util.Scanner;
+
+public class internals extends student {
+    protected int cieMarks[] = new int[5];
+
+    public void inputCIEmarks() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter Internal Marks for 5 subjects:");
+        for (int i = 0; i < 5; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            cieMarks[i] = s.nextInt();
+        }
+    }
+}
+
+package SEE;
+
+import CIE.internals;
+import java.util.Scanner;
+
+public class externals extends internals {
+    protected int seeMarks[] = new int[5];
+    protected int finalMarks[] = new int[5];
+
+    public void inputSEEmarks() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter SEE Marks for 5 subjects:");
+        for (int i = 0; i < 5; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            seeMarks[i] = s.nextInt();
+        }
+    }
+
+    public void calculateFinalMarks() {
+        for (int i = 0; i < 5; i++) {
+            finalMarks[i] = (seeMarks[i] + this.cieMarks[i]) / 2; 
+        }
+    }
+
+    public void displayFinalMarks() {
+        displayStudentDetails();
+        System.out.println("Final Marks:");
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Subject " + (i + 1) + ": " + finalMarks[i]);
+        }
+    }
+}
+
+import SEE.externals;
+import java.util.Scanner;
+
+class main {
+    public static void main(String args[]) {
+        Scanner s = new Scanner(System.in);
+	System.out.println("Name: Anthra V \t USN:1BM23CS044");
+        System.out.println("Enter number of Students: ");
+        int x = s.nextInt();
+        externals[] students = new externals[x]; 
+
+        for (int i = 0; i < x; i++) {
+            students[i] = new externals(); 
+            students[i].inputStudentDetails();
+            students[i].inputCIEmarks();
+            students[i].inputSEEmarks();
+            students[i].calculateFinalMarks();
+            students[i].displayFinalMarks();
+        }
+        s.close(); 
+    }
+}
